@@ -115,10 +115,9 @@ class Sid extends CI_Controller
         $this->db->select("*,2022-YEAR(penduduk.TGL_LHR) as umur");
         $penduduk = $this->db->get("penduduk")->result_array();
         foreach ($penduduk as $key) {
-            $nikayah="";
-            $nikibu="";
-            if($key["STATUS"]=="ANAK"){
-
+            $nikayah = "";
+            $nikibu = "";
+            if ($key["STATUS"] == "ANAK") {
             }
             $temp_data = [
                 "nama" => $key["NAMA_LENGKAP"],
@@ -344,6 +343,6 @@ class Sid extends CI_Controller
     public function cari_nik_ayah($no_kk)
     {
         $this->db->where("NO_KK", $no_kk);
-        $this->db->where("")
+        $this->db->where("");
     }
 }
