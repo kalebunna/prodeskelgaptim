@@ -18,9 +18,13 @@
                              <h6>Halaman Utama</h6>
                          </div>
                      </li>
-                     
+
                      <li><a class="nav-link menu-title link-nav" href="<?= base_url('Penduduk') ?>"><i data-feather="file"></i><span>Penduduk</span></a></li>
                      <li><a class="nav-link menu-title link-nav" href="<?= base_url('Pendidikan') ?>"><i data-feather="file"></i><span>Pendidikan</span></a></li>
+                     </li>
+                     <li><a class="nav-link menu-title link-nav" href="<?= base_url('SID') ?>"><i data-feather="file"></i><span>SID</span></a></li>
+                     </li>
+                     <li><a class="nav-link menu-title link-nav" href="<?= base_url('Pekerjaan') ?>"><i data-feather="file"></i><span>Pekerjaan</span></a></li>
                      </li>
                  </ul>
              </div>

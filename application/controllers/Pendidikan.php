@@ -36,6 +36,18 @@ class Pendidikan extends CI_Controller
                 ];
                 echo json_encode($data);
                 break;
+            case 4:
+                $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 7 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=18 AND JK = "LK"');
+                $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 7 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=18 AND JK = "PR"');
+                $allresult = (array_merge($lk->result_array(), $pr->result_array()));
+                // array_push(;
+                $data = [
+                    "laki" => $lk->num_rows(),
+                    "perem" => $pr->num_rows(),
+                    "data" => $allresult
+                ];
+                echo json_encode($data);
+                break;
             case 5:
                 $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 18 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=56 AND JK = "LK" AND DIDIK = "TDK TMT SD/SEDERAJAT"');
                 $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 18 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=56 AND JK = "PR" AND  DIDIK = "TDK TMT SD/SEDERAJAT"');
@@ -48,18 +60,18 @@ class Pendidikan extends CI_Controller
                 ];
                 echo json_encode($data);
                 break;
-                case 7:
-                    $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 18 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=56 AND JK = "LK" AND DIDIK = "TAMAT SD/SEDERAJAT"');
-                    $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 18 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=56 AND JK = "PR" AND  DIDIK = "TAMAT SD/SEDERAJAT"');
-                    $allresult = (array_merge($lk->result_array(), $pr->result_array()));
-                    // array_push(;
-                    $data = [
-                        "laki" => $lk->num_rows(),
-                        "perem" => $pr->num_rows(),
-                        "data" => $allresult
-                    ];
-                    echo json_encode($data);
-                    break;
+            case 7:
+                $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 18 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=56 AND JK = "LK" AND DIDIK = "TAMAT SD/SEDERAJAT"');
+                $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 18 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=56 AND JK = "PR" AND  DIDIK = "TAMAT SD/SEDERAJAT"');
+                $allresult = (array_merge($lk->result_array(), $pr->result_array()));
+                // array_push(;
+                $data = [
+                    "laki" => $lk->num_rows(),
+                    "perem" => $pr->num_rows(),
+                    "data" => $allresult
+                ];
+                echo json_encode($data);
+                break;
             case 8:
                 $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 18 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=56 AND JK = "LK" AND DIDIK = "SLTP/SEDERAJAT"');
                 $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE (' . $tahun . '-YEAR(penduduk.TGL_LHR)) >= 18 AND (' . $tahun . '-YEAR(penduduk.TGL_LHR)) <=56 AND JK = "PR" AND  DIDIK = "SLTP/SEDERAJAT"');
@@ -83,7 +95,7 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             case 10:
@@ -97,7 +109,7 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             case 11:
@@ -111,12 +123,12 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             case 12:
-                $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE JK = "LK" AND DIDIK = "SLTP/SEDERAJAT"');
-                $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE JK = "PR" AND DIDIK = "SLTP/SEDERAJAT"');
+                $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE JK = "LK" AND DIDIK = "DIPL I"');
+                $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE JK = "PR" AND DIDIK = "DIPL I/II"');
                 $allresult = (array_merge($lk->result_array(), $pr->result_array()));
                 // array_push(;
                 $data = [
@@ -125,12 +137,12 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             case 13:
-                $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE JK = "LK" AND DIDIK = "SLTP/SEDERAJAT"');
-                $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE JK = "PR" AND DIDIK = "SLTP/SEDERAJAT"');
+                $lk = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE JK = "LK" AND DIDIK = "DIPL I/II"');
+                $pr = $this->db->query('SELECT *,(' . $tahun . '-YEAR(penduduk.TGL_LHR)) as umur FROM penduduk WHERE JK = "PR" AND DIDIK = "DIPL I/II"');
                 $allresult = (array_merge($lk->result_array(), $pr->result_array()));
                 // array_push(;
                 $data = [
@@ -139,7 +151,7 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             case 14:
@@ -153,7 +165,7 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             case 15:
@@ -167,7 +179,7 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             case 16:
@@ -181,7 +193,7 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             case 17:
@@ -195,7 +207,7 @@ class Pendidikan extends CI_Controller
                     "data" => $allresult
                 ];
                 # code...
-                
+
                 echo json_encode($data);
                 break;
             default:
