@@ -57,7 +57,7 @@ class Sid extends CI_Controller
 
         $data_penduduk = $this->data_penduduk_for_export();
         $alpha = "A";
-        $no = 1;
+        $no = 2;
         foreach ($data_penduduk as $pnd) {
             $spreadsheet->setActiveSheetIndex(0)
                 ->setCellValue($alpha++ . $no, "RT " . $pnd["rt"] . " RW " . $pnd["rw"] . " DUSUN " . $pnd["dusun"])
@@ -84,17 +84,17 @@ class Sid extends CI_Controller
                 ->setCellValue($alpha++  . $no, '')
                 ->setCellValue($alpha++  . $no, '')
                 ->setCellValue($alpha++  . $no, '')
-                ->setCellValue($alpha++  . $no, 'NIK Ayah')
-                ->setCellValue($alpha++  . $no, 'NIK Ibu')
-                ->setCellValue($alpha++  . $no, 'Nomor Akta Perkawinan')
-                ->setCellValue($alpha++  . $no, 'Tanggal Perkawinan')
-                ->setCellValue($alpha++  . $no, 'Nomor Akta Perceraian')
-                ->setCellValue($alpha++  . $no, 'Tanggal Perceraian')
-                ->setCellValue($alpha++  . $no, 'Cacat')
-                ->setCellValue($alpha++  . $no, 'Cara KB')
-                ->setCellValue($alpha++  . $no, 'Hamil')
-                ->setCellValue($alpha++  . $no, 'KTP EL')
-                ->setCellValue($alpha++  . $no, 'Status Rekam');
+                ->setCellValue($alpha++  . $no, $pnd["nik_ayah"])
+                ->setCellValue($alpha++  . $no,  $pnd["nik_ibu"])
+                ->setCellValue($alpha++  . $no, '')
+                ->setCellValue($alpha++  . $no, '')
+                ->setCellValue($alpha++  . $no, '')
+                ->setCellValue($alpha++  . $no, '')
+                ->setCellValue($alpha++  . $no, '')
+                ->setCellValue($alpha++  . $no, '')
+                ->setCellValue($alpha++  . $no, '')
+                ->setCellValue($alpha++  . $no, '')
+                ->setCellValue($alpha++  . $no, $pnd["status_rekam"]);
             $no++;
             $alpha = "A";
         }
@@ -115,10 +115,7 @@ class Sid extends CI_Controller
         $this->db->select("*,2022-YEAR(penduduk.TGL_LHR) as umur");
         $penduduk = $this->db->get("penduduk")->result_array();
         foreach ($penduduk as $key) {
-            $nikayah = "";
-            $nikibu = "";
-            if ($key["STATUS"] == "ANAK") {
-            }
+
             $temp_data = [
                 "nama" => $key["NAMA_LENGKAP"],
                 "jenis_kelamin" => $this->jenis_kelamin($key["JK"]),
@@ -135,13 +132,15 @@ class Sid extends CI_Controller
                 "status_kel" => $this->status_hubungan($key["SHDK"]),
                 "ayah" => $key["AYAH"],
                 "ibu" => $key["IBU"],
+                "nik_ayah" => $this->cari_nik_ayah($key["NIK"]),
+                "nik_ibu" => $this->cari_nik_ibu($key["NIK"]),
                 "akta" => $key["NO_AKTA"],
                 "dusun" => $key["ALAMAT"],
                 "status_rekam" => $key["umur"] < 17 ? "1" : "3"
             ];
             array_push($data_akhir, $temp_data);
         }
-        // echo json_encode($data_akhir);
+
         return $data_akhir;
     }
 
@@ -224,7 +223,7 @@ class Sid extends CI_Controller
             "6"    =>    "TENTARA NASIONAL INDONESIA (TNI)",
             "7"    =>    "KEPOLISIAN RI (POLRI)",
             "8"    =>    "PERDAGANGAN",
-            "9"    =>    "PETANI/PERKEBUNAN",
+            "9"    =>    "PETANI/PEKEBUN",
             "10"    =>    "PETERNAK",
             "11"    =>    "NELAYAN/PERIKANAN",
             "12"    =>    "INDUSTRI",
@@ -330,7 +329,7 @@ class Sid extends CI_Controller
             "4"    =>    "ANAK",
             "5"    =>    "MENANTU",
             "6"    =>    "CUCU",
-            "7"    =>    "ORANGTUA",
+            "7"    =>    "ORANG TUA",
             "8"    =>    "MERTUA",
             "9"    =>    "FAMILI LAI",
             "10"    =>    "PEMBANTU",
@@ -340,9 +339,29 @@ class Sid extends CI_Controller
         return $temp_nilai;
     }
 
-    public function cari_nik_ayah($no_kk)
+    public function cari_nik_ayah($nik)
     {
-        $this->db->where("NO_KK", $no_kk);
-        $this->db->where("");
+        $this->db->select("(SELECT NIK FROM penduduk WHERE A.AYAH=penduduk.NAMA_LENGKAP AND NO_KK=A.NO_KK) AS nik_ayah ");
+        $this->db->where("NIK", $nik);
+        $this->db->limit(1);
+        $nik_ayah = $this->db->get("penduduk A");
+        if ($nik_ayah->num_rows() > 0) {
+            return $nik_ayah->row()->nik_ayah;
+        } else {
+            return "";
+        }
+    }
+
+    public function cari_nik_ibu($nik)
+    {
+        $this->db->select("(SELECT NIK FROM penduduk WHERE A.IBU=penduduk.NAMA_LENGKAP AND NO_KK=A.NO_KK) AS nik_ibu ");
+        $this->db->where("NIK", $nik);
+        $this->db->limit(1);
+        $nik_ibu = $this->db->get("penduduk A");
+        if ($nik_ibu->num_rows() > 0) {
+            return $nik_ibu->row()->nik_ibu;
+        } else {
+            return "";
+        }
     }
 }

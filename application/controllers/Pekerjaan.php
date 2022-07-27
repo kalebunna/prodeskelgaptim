@@ -6,6 +6,7 @@ class Pekerjaan extends CI_COntroller
         $data = [
             "content" => "Pekerjaan",
             "jenis_pekerjaan" => $this->db->query("SELECT penduduk.KERJA FROM penduduk GROUP BY penduduk.KERJA ORDER BY KERJA ASC")->result()
+
         ];
         $this->load->view("templates/index", $data);
     }

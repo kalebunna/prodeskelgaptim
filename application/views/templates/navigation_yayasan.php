@@ -26,6 +26,8 @@
                      </li>
                      <li><a class="nav-link menu-title link-nav" href="<?= base_url('Pekerjaan') ?>"><i data-feather="file"></i><span>Pekerjaan</span></a></li>
                      </li>
+                     <li><a class="nav-link menu-title link-nav" href="<?= base_url('Angkatan_kerja') ?>"><i data-feather="file"></i><span>Angkata_kerja</span></a></li>
+                     </li>
                  </ul>
              </div>
              <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
