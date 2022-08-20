@@ -2,6 +2,7 @@
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpParser\Node\Stmt\Switch_;
 
 class Sid extends CI_Controller
 {
@@ -160,7 +161,13 @@ class Sid extends CI_Controller
             case 'TDK/BLM SEKOLAH':
                 $temp_nilai = 1;
                 break;
+            case 'TIDAK/BELUM SEKOLAH':
+                $temp_nilai = 1;
+                break;
             case 'TDK TMT SD/SEDERAJAT':
+                $temp_nilai = 2;
+                break;
+            case 'BELUM TAMAT SD/SEDERAJAT':
                 $temp_nilai = 2;
                 break;
 
@@ -173,13 +180,19 @@ class Sid extends CI_Controller
             case 'SLTA/SEDERAJAT':
                 $temp_nilai = 5;
                 break;
-            case 'DIPL I/II':
+            case 'DIPLOMA I / II':
                 $temp_nilai = 6;
                 break;
             case 'AKADEMI/DIPL III/S.':
                 $temp_nilai = 7;
                 break;
+            case 'AKADEMI/DIPLOMA III':
+                $temp_nilai = 7;
+                break;
             case 'DIPL IV/STRATA I':
+                $temp_nilai = 8;
+                break;
+            case 'DIPLOMA IV/STRATA I':
                 $temp_nilai = 8;
                 break;
             case 'STRATA II':
@@ -216,7 +229,9 @@ class Sid extends CI_Controller
 
         $pekerjaan = array(
             "1"    =>    "BLM/TIDAK BEKERJA",
+            "1"    =>    "BELUM/TIDAK BEKERJA",
             "2"    =>    "MENGRUS RMH TANGGA",
+            "2"    =>    "MENGURUS RUMAH TANGGA",
             "3"    =>    "PELAJAR/MAHASISWA",
             "4"    =>    "PENSIUNAN",
             "5"    =>    "PEGAWAI NEGERI SIPIL",
@@ -311,10 +326,13 @@ class Sid extends CI_Controller
     public function status_perkawinan($data)
     {
         $perkawinan = [
-            "1" => "BLM KAWIN",
+            "1" => "BELUM KAWIN",
+            "01" => "BELUM MENIKAH",
             "2" => "KAWIN",
+            "02" => "KAWIN ",
             "3" => "CERAI HIDUP",
-            "4" => "CERAI MATI"
+            "4" => "CERAI MATI",
+            "04" => "CERAI MATI "
         ];
         $temp_nilai = array_search($data, $perkawinan, false);
         return $temp_nilai;
@@ -322,8 +340,9 @@ class Sid extends CI_Controller
 
     public function status_hubungan($data)
     {
+
         $status = [
-            "1"    =>    "KEPALA KEL",
+            "1"    =>    "KEPALA KELUARGA",
             "2"    =>    "SUAMI",
             "3"    =>    "ISTRI",
             "4"    =>    "ANAK",
@@ -332,6 +351,7 @@ class Sid extends CI_Controller
             "7"    =>    "ORANG TUA",
             "8"    =>    "MERTUA",
             "9"    =>    "FAMILI LAI",
+            "09"    =>    "FAMILI LAIN",
             "10"    =>    "PEMBANTU",
             "11"    =>    "LAINNYA",
         ];

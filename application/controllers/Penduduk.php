@@ -54,6 +54,9 @@ class Penduduk extends CI_Controller
             $data_input["DIDIK"] = $t[19];
             $data_input["KERJA"] = $t[20];
             // $data_input["KTP_EL"]=$t
+            if ($t[0] == '' && $t[1] == '') {
+                break;
+            }
             array_push($datas, $data_input);
         }
         $log_result = $this->Penduduk_model->inset_data_excel($datas);
